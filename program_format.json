@@ -1,32 +1,34 @@
-["function", "main", ["arguments"], 
+["$function","main",["arguments"], 
 
-["comment","console.log('output text', 'another output text')"],
-["method_chain",["variable","console"],["method","log"],["invocation","output text","another output text"]],
+["$comment_string","console.log('output text', 'another output text')"],
+["$expression",["$attribute_id","console"],["$attribute_id","log"],["$invocation",["$string","output text"],["$string","another output text"]]],
 
-["comment","document.querySelector('#site-navigation').style.backgroundColor='greenyellow'"],
-["method_chain",["variable","document"],
-["method","querySelector"],
-["invocation","'#site-navigation'"],
-["attribute","style"],
-["attribute","backgroundColor"],
-["operation","assign"],
-["string","greenyellow"]
+["$comment_string","document.querySelector('#site-navigation').style.backgroundColor='greenyellow'"],
+["$expression",["$attribute_id","document"],
+["$attribute_id","querySelector"],
+["$invocation",["$string","#site-navigation"]],
+["$attribute_id","style"],
+["$attribute_id","backgroundColor"],
+["$operation_id","assign"],
+["$string","greenyellow"]
 ],
 
-["comment","y=3*(x-1)"],
-["expression", ["variable","y"],
-    ["operation","assign"],
+["$comment_string","y=3*(x-1)"],
+["$expression", ["$attribute_id","y"],
+    ["$operation_id","assign"],
 
-    ["expression",
-        ["number","3"],
-        ["operation","multiplication"],
-        ["expression",
-            ["variable","x"],
-            ["operation","subtraction"],
-            ["number","1"]
+    ["$expression",
+        ["$number",3],
+        ["$operation_id","multiplication"],
+        ["$expression",
+            ["$attribute_id","x"],
+            ["$operation_id","subtraction"],
+            ["$number",1]
         ]
     ]
 ],
 
-["..."]
+["..."],
+
+["$function","$comment_string","$number","$string","$operation_id","$attribute_id","$invocation"]
 ]
