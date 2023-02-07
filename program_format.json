@@ -1,0 +1,32 @@
+["function", "main", ["arguments"], 
+
+["comment","console.log('output text', 'another output text')"],
+["method_chain",["variable","console"],["method","log"],["invocation","output text","another output text"]],
+
+["comment","document.querySelector('#site-navigation').style.backgroundColor='greenyellow'"],
+["method_chain",["variable","document"],
+["method","querySelector"],
+["invocation","'#site-navigation'"],
+["attribute","style"],
+["attribute","backgroundColor"],
+["operation","assign"],
+["string","greenyellow"]
+],
+
+["comment","y=3*(x-1)"],
+["expression", ["variable","y"],
+    ["operation","assign"],
+
+    ["expression",
+        ["number","3"],
+        ["operation","multiplication"],
+        ["expression",
+            ["variable","x"],
+            ["operation","subtraction"],
+            ["number","1"]
+        ]
+    ]
+],
+
+["..."]
+]
