@@ -44,6 +44,7 @@ globalThis. $expr = function $expr(expr){
                 return undefined
             }
             current_value = context[attribute_id]
+            context = current_value
             new_value = true
         } else if(current[0]=="$op"){
             operation_id = current[1]
@@ -151,3 +152,6 @@ globalThis.variable2={ variable3: { variable4: true}}
 console.log( "get var, nested 1", get(["$attr","variable2","variable3","variable4"]) )
 
 get( ["$attr","console","log"] ) ( ...  arguments)
+
+// use of context
+get( ["$expr",["$attr","console"],["$attr","log"]] ) ( ...  arguments)
