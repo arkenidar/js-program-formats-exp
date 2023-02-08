@@ -54,6 +54,14 @@ globalThis. $expr = function $expr(expr){
         } else if(current[0]=="$expr"){
             current_value = $expr(current)
             new_value = true
+        } else if(current[0]=="$call"){
+            var arguments = []
+            for(var index=1; index<current.length; index += 1){
+                var argument = current[index]
+                arguments.push(get(argument))
+            }
+            current_value = context(...arguments)
+            new_value = true
         } else {
             console.error("unsupported in $expr :", current[0])
             return null
@@ -155,3 +163,6 @@ get( ["$attr","console","log"] ) ( ...  arguments)
 
 // use of context
 get( ["$expr",["$attr","console"],["$attr","log"]] ) ( ...  arguments)
+
+// use of $call
+get(["$expr",["$attr","console"],["$attr","log"],["$call",["$val","output text"],["$val","another output text"]]])
