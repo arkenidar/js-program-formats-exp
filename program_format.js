@@ -13,8 +13,10 @@
 ["$attr","document"],
 ["$attr","querySelector"],
 ["$call",["$val","#site-navigation"]],
+
 ["$attr","style"],
 ["$attr_set","backgroundColor",["$val","greenyellow"]],
+
 ],
 */
 
@@ -44,7 +46,10 @@ globalThis. $expr = function $expr(expr){
                 return undefined
             }
             current_value = context[attribute_id]
-            context = current_value
+            new_value = true
+        } else if(current[0]=="$attr_set"){
+            var attr_set = current
+            current_value = context[attr_set[1]]=get(attr_set[2])
             new_value = true
         } else if(current[0]=="$op"){
             operation_id = current[1]
@@ -83,8 +88,11 @@ globalThis. $expr = function $expr(expr){
             }
             operation_id = null
         }
+
+        context = current_value
+
         ip += 1
-    }
+    } // end of while()
     return current_value
 }
 
@@ -150,6 +158,7 @@ console.log("## nested expr ##", get(expr1), y)
 
 // TO-DO, to be completed:
 
+// console.log('output text', 'another output text')
 var arguments = [ "## access to attributes ##", true ]
 globalThis["console"]["log"] ( ...  arguments)
 
@@ -166,3 +175,38 @@ get( ["$expr",["$attr","console"],["$attr","log"]] ) ( ...  arguments)
 
 // use of $call
 get(["$expr",["$attr","console"],["$attr","log"],["$call",["$val","output text"],["$val","another output text"]]])
+
+// END of:
+// [JS] console.log('output text', 'another output text')
+
+// ****************************************************************
+
+// [JS] document.querySelector('#site-navigation').style.backgroundColor='greenyellow'
+// (subpart)
+// [JS] style.backgroundColor='greenyellow'
+var complex_expr1 = ["$expr", ["$attr","style"],["$attr_set","backgroundColor",["$val","greenyellow"]] ]
+style={} // style.backgroundColor='greenyellow'
+get(complex_expr1)
+console.log(style)
+// ****************************************************************
+// document.querySelector('#site-navigation').style.backgroundColor='greenyellow'
+
+var complex_expr2 =
+["$expr",
+["$attr","documentTEST"],
+["$attr","querySelector"],
+["$call",["$val","#site-navigation"]],
+
+["$attr","style"],
+["$attr_set","backgroundColor",["$val","greenyellow"]],
+]
+
+documentTEST={}
+var elementTEST={ style:{} }
+documentTEST.querySelector = function(what){
+    console.log("what :",what)
+    return elementTEST
+}
+get(complex_expr2)
+console.log(elementTEST.style)
+// ****************************************************************
