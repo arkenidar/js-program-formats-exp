@@ -14,9 +14,7 @@
 ["$attr","querySelector"],
 ["$call",["$val","#site-navigation"]],
 ["$attr","style"],
-["$attr_set","backgroundColor"],
-["$op","="],
-["$val","greenyellow"]
+["$attr_set","backgroundColor",["$val","greenyellow"]],
 ],
 */
 
