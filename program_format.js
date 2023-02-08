@@ -1,28 +1,6 @@
 // JSON format for programs
 
-// *** FUTURE ***
-
-///var main = ["$func","main",["arguments"], 
-
-//["$skip","console.log('output text', 'another output text')"],
-//["$expr",["$attr","console"],["$attr","log"],["$call",["$val","output text"],["$val","another output text"]]],
-
-//["$skip","document.querySelector('#site-navigation').style.backgroundColor='greenyellow'"],
-/*
-["$expr",
-["$attr","document"],
-["$attr","querySelector"],
-["$call",["$val","#site-navigation"]],
-
-["$attr","style"],
-["$attr_set","backgroundColor",["$val","greenyellow"]],
-
-],
-*/
-
-// *** CURRENT
-
-// 8 keywords: "$func","$skip","$val","$expr","$op","$attr","attr_set","$call"
+// 8 keywords: "$func","$skip","$val","$expr","$op","$attr","$attr_set","$call"
 
 globalThis. $expr = function $expr(expr){
     if(expr[0]!="$expr"){
@@ -30,9 +8,9 @@ globalThis. $expr = function $expr(expr){
         return null
     }
     var ip = 1
-    var context = globalThis // TO-DO
-    var attribute_id = null // $attr
-    var operation_id = null // $op
+    var context = globalThis
+    var attribute_id = null
+    var operation_id = null
     var current_value = null
     while(ip < expr.length){
         var current = expr[ip]
@@ -92,7 +70,7 @@ globalThis. $expr = function $expr(expr){
         context = current_value
 
         ip += 1
-    } // end of while()
+    }
     return current_value
 }
 
@@ -105,7 +83,7 @@ globalThis. $val= function $val(val){
 }
 
 globalThis. $attr= function $attr(attr){
-    var context = globalThis // TODO
+    var context = globalThis
     var result
     for(var index = 1; index<attr.length; index += 1){
         var attribute_id = attr[index]
@@ -129,84 +107,3 @@ function get(json){
         return null
     }
 }
-
-// =============================== TESTS =========================================
-
-// y=x=1
-console.log("## multiple assignment ##", get(["$attr_set","y",["$attr_set","x",["$val",1]]]),x,y)
-
-// testing $op & $val
-// (2+3)/2
-console.log("## multiple ops ##", get(["$expr",["$val",2],["$op","+"],["$val",3],["$op","/"],["$val",2]]))
-
-//["$skip","y=3*(x-2)"],
-// y=3*(x-2)
-var expr1 =
-["$attr_set","y", 
-    ["$expr", // math expression
-        ["$val",3],
-        ["$op","*"],
-
-        ["$expr",
-            ["$attr","x"], // variable x
-            ["$op","-"],
-            ["$val",2]
-        ]
-    ]
-]
-console.log("## nested expr ##", get(expr1), y)
-
-// TO-DO, to be completed:
-
-// console.log('output text', 'another output text')
-var arguments = [ "## access to attributes ##", true ]
-globalThis["console"]["log"] ( ...  arguments)
-
-globalThis.variable1=true
-console.log( "get var", get(["$attr","variable1"]) )
-
-globalThis.variable2={ variable3: { variable4: true}}
-console.log( "get var, nested 1", get(["$attr","variable2","variable3","variable4"]) )
-
-get( ["$attr","console","log"] ) ( ...  arguments)
-
-// use of context
-get( ["$expr",["$attr","console"],["$attr","log"]] ) ( ...  arguments)
-
-// use of $call
-get(["$expr",["$attr","console"],["$attr","log"],["$call",["$val","output text"],["$val","another output text"]]])
-
-// END of:
-// [JS] console.log('output text', 'another output text')
-
-// ****************************************************************
-
-// [JS] document.querySelector('#site-navigation').style.backgroundColor='greenyellow'
-// (subpart)
-// [JS] style.backgroundColor='greenyellow'
-var complex_expr1 = ["$expr", ["$attr","style"],["$attr_set","backgroundColor",["$val","greenyellow"]] ]
-style={} // style.backgroundColor='greenyellow'
-get(complex_expr1)
-console.log(style)
-// ****************************************************************
-// document.querySelector('#site-navigation').style.backgroundColor='greenyellow'
-
-var complex_expr2 =
-["$expr",
-["$attr","documentTEST"],
-["$attr","querySelector"],
-["$call",["$val","#site-navigation"]],
-
-["$attr","style"],
-["$attr_set","backgroundColor",["$val","greenyellow"]],
-]
-
-documentTEST={}
-var elementTEST={ style:{} }
-documentTEST.querySelector = function(what){
-    console.log("what :",what)
-    return elementTEST
-}
-get(complex_expr2)
-console.log(elementTEST.style)
-// ****************************************************************
